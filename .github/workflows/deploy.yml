@@ -18,14 +18,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # Cache removed since we don't have a lock file
+          # NO CACHE - we don't have a lock file
 
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
@@ -34,12 +34,12 @@ jobs:
         run: |
           echo "VITE_GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" > .env
 
-      - name: Build Vite App
+      - name: Build
         run: npm run build
         env:
           VITE_GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
-      - name: Upload Build Artifact
+      - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
